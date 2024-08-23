@@ -22,10 +22,15 @@ export const useForm = (initialForm = {}) => {
         // console.log({ name, value });
     };
 
+    const onResetForm = () => {
+        setFormState(initialForm);
+    };
+
     // Retorna un objeto que incluye el estado del formulario, la función onInputChange y todos los campos del formulario
     return {
         ...formState, // Expande todos los campos del formulario para que estén disponibles directamente
         formState, // Incluye el estado del formulario completo
-        onInputChange // Incluye la función para manejar los cambios en los inputs
+        onInputChange,// Incluye la función para manejar los cambios en los inputs
+        onResetForm
     };
 };

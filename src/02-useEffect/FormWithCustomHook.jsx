@@ -5,11 +5,16 @@ import { useForm } from "../hooks/useForm";
 export const FormWithCustomHook = () => {
 
     // Desestructura el estado del formulario y los manejadores de cambios del hook personalizado
-    const { formState, onInputChange, username, email, password } = useForm({
+    const { formState, onResetForm, onInputChange, username, email, password } = useForm({
         username: '', // Valor inicial del nombre de usuario
         email: '',    // Valor inicial del correo electrónico
         password: ''  // Valor inicial de la contraseña
     });
+
+
+
+
+
 
     // Descomenta para desestructurar username, email, y password directamente desde formState
     // const { username, email, password } = formState;
@@ -70,6 +75,13 @@ export const FormWithCustomHook = () => {
                 value={password}
                 onChange={onInputChange}
             />
+
+
+            
+            <button onClick={onResetForm} className="btn btn-primary mt-2">borrar</button>
+            
+
+
         </>
     );
 };
