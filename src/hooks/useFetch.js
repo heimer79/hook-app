@@ -30,7 +30,7 @@ export const useFetch = (url) => {
         const resp = await fetch(url);
 
         // Simula una demora artificial de 1 segundo antes de procesar la respuesta.
-        await new Promise((resolve) => setTimeout(resolve, 3000));
+        await new Promise((resolve) => setTimeout(resolve, 500));
 
         // Verifica si la respuesta no es exitosa (código HTTP fuera del rango 2xx).
         if (!resp.ok) {
