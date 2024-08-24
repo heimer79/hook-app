@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 
+const localCache = {};
+
 // Hook personalizado `useFetch` que toma una URL como argumento.
 export const useFetch = (url) => {
-  
   // Estado local que maneja los datos, estado de carga, errores, etc.
   const [state, setState] = useState({
     data: null,         // Inicialmente, no hay datos (null).
@@ -11,12 +12,23 @@ export const useFetch = (url) => {
     error: null         // No hay detalles de error al inicio (null).
   });
 
-  // `useEffect` para ejecutar la función `getFetch` cuando el componente se monta o la URL cambia.
+  // Verifica si los datos ya están en la caché.
   useEffect(() => {
-    
+    if (localCache[url]) {
+      console.log('Usando cache para', url);
+
+      setState({
+        data: localCache[url],
+        loading: false,
+        hasError: false,
+        error: null
+      });
+
+      return; // Detener la ejecución del efecto si ya tenemos los datos en la caché.
+    }
+
     // Función asíncrona que realiza la solicitud de datos a la URL proporcionada.
     const getFetch = async () => {
-      
       // Reinicia el estado antes de hacer la solicitud.
       setState({
         data: null,         // Reinicia los datos a null.
@@ -41,6 +53,9 @@ export const useFetch = (url) => {
         // Si la respuesta es exitosa, convierte los datos a formato JSON.
         const data = await resp.json();
 
+        // Almacena los datos en la caché.
+        localCache[url] = data;
+
         // Actualiza el estado con los datos obtenidos y marca `loading` como false.
         setState({
           data,              // Almacena los datos obtenidos en el estado.
@@ -48,7 +63,6 @@ export const useFetch = (url) => {
           hasError: false,   // No hay error en la solicitud.
           error: null        // No hay detalles de error.
         });
-
       } catch (error) {
         // Si ocurre un error en la solicitud `fetch`, actualiza el estado con los detalles del error.
         setState({
